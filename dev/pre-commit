@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "===== Running pre-commit ====="
+echo "===== Running pytest ====="
+
+pytest
+
+if [ $? -ne 0 ]
+then
+  echo "==== pre-commit: tests failed, aborting ===="
+  exit 1
+fi
+
+echo "==== pre-commit: Success! ===="
