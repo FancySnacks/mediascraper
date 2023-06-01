@@ -1,22 +1,23 @@
 {
   "image":
   [
-    "jpeg",
-    "jpg",
-    "png",
-    "webp"
+    ".jpeg",
+    ".jpg",
+    ".png",
+    ".webp",
+    ".gif"
   ],
   "video":
   [
-    "mp4",
-    "mov",
-    "avi",
-    "webm"
+    ".mp4",
+    ".mov",
+    ".avi",
+    ".webm"
   ],
   "sound":
   [
-    "mp3",
-    "wav",
-    "ogg"
+    ".mp3",
+    ".wav",
+    ".ogg"
   ]
 }
