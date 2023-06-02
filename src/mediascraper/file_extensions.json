@@ -5,7 +5,8 @@
     ".jpg",
     ".png",
     ".webp",
-    ".gif"
+    ".gif",
+    ".svg"
   ],
   "video":
   [
