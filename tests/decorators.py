@@ -20,7 +20,15 @@ class Network:
 
     @staticmethod
     def requires_connection(func):
-        pytest.mark.skipif(not CONNECTION, reason=Network.skip_reason)
+        def wrapper(*args, **kwargs):
+            func(*args, **kwargs)
+
+        if CONNECTION is False:
+            pytest.mark.skip(reason=Network.skip_reason)
+
+        else:
+            return wrapper
+
 
 
 CONNECTION: bool = Network.connected_to_internet()
