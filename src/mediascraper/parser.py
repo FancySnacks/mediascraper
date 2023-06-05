@@ -3,6 +3,17 @@ from typing import Sequence
 
 
 class ArgParser:
+    """
+    Parse console arguments.
+
+    usage: mediascraper.exe [-h] [-u URL]
+
+        options:
+          -h, --help         show this help message and exit
+          -u URL, --url URL  URL of the target webpage to scrape
+                             This should be a full link, ex. 'https://google.com', not 'google.com'
+    """
+
     parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
 
     @classmethod
