@@ -3,7 +3,7 @@ import pytest
 import requests
 from requests.exceptions import ConnectionError
 
-from .decorators import Network
+from .util import Network
 
 
 # Skip all tests below if there's no internet connection

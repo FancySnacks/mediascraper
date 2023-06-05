@@ -1,6 +1,10 @@
 import pytest
 import requests
 
+import subprocess
+
+from mediascraper.const import DEFAULT_PATH
+
 
 class Network:
     skip_reason = "No internet connection"
@@ -32,3 +36,14 @@ class Network:
 
 
 CONNECTION: bool = Network.connected_to_internet()
+
+
+def run_module(args: list[str] = None) -> subprocess.CompletedProcess:
+    path = f"python {DEFAULT_PATH}"
+
+    if args:
+        path = path + ' ' + ' '.join(args)
+
+    process = subprocess.run(path, capture_output=True, text=True)
+
+    return process

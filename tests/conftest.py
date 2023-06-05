@@ -1,6 +1,5 @@
 import pytest
 
-
 @pytest.fixture
 def mock_images() -> list[str]:
     return ["test.png", "test2.jpeg", "test3.svg"]

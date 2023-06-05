@@ -3,7 +3,7 @@ import requests
 from mediascraper.scraper import ContentScraper
 from mediascraper.util import is_image
 
-from .decorators import Network
+from .util import Network
 
 
 def test_successful_scrape_images_with_mock_html_page(mock_html):
