@@ -1,6 +1,9 @@
 # TODO list
 TODO.md
 
+# Test files
+test_parser.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
