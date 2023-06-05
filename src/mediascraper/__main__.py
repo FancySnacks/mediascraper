@@ -9,7 +9,7 @@ from mediascraper.parser import ArgParser
 def main(argv: Sequence[str] | None = None):
     parsed_args: dict = ArgParser.parse_args(argv)
 
-    url = parsed_args.get('url')
+    url: str = parsed_args.get('url')
 
     if url:
         req = requests.get(url).text
