@@ -15,26 +15,25 @@ class ArgParser:
       -s, --show         Print scraped media links to the console
     """
 
-    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+    def __init__(self):
+        self.parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+        self.args = None
 
-    @classmethod
-    def parse_args(cls, args: Sequence[str]) -> dict:
-        cls.setup()
+    def parse_args(self, args: Sequence[str]) -> dict:
+        self.setup()
+        self.args: dict = vars(self.parser.parse_args(args))
 
-        args = cls.parser.parse_args(args)
+        return self.args
 
-        return vars(args)
+    def setup(self):
+        self.parser.add_argument('-u',
+                                 '--url',
+                                 type=str,
+                                 help="URL of the target webpage to scrape\n"
+                                      "This should be a full link, ex. 'https://google.com', not 'google.com'")
 
-    @classmethod
-    def setup(cls):
-        cls.parser.add_argument('-u',
-                                '--url',
-                                type=str,
-                                help="URL of the target webpage to scrape\n"
-                                "This should be a full link, ex. 'https://google.com', not 'google.com'")
-
-        cls.parser.add_argument('-s',
-                                '--show',
-                                action='store_true',
-                                default=False,
-                                help="Print scraped media links to the console")
+        self.parser.add_argument('-s',
+                                 '--show',
+                                 action='store_true',
+                                 default=False,
+                                 help="Print scraped media links to the console")

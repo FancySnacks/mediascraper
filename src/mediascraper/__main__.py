@@ -8,7 +8,8 @@ from mediascraper.util import string_list_to_separate_lines
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parsed_args: dict = ArgParser.parse_args(argv)
+    parser = ArgParser()
+    parsed_args: dict = parser.parse_args(argv)
 
     url: str = parsed_args.get('url')
 
