@@ -4,6 +4,7 @@ from typing import Sequence
 
 from mediascraper.scraper import ContentScraper
 from mediascraper.parser import ArgParser
+from mediascraper.filesaver import FileSaver
 from mediascraper.util import string_list_to_separate_lines
 
 
@@ -20,6 +21,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         if parsed_args.get('show'):
             print(string_list_to_separate_lines(results))
+
+        if location := parsed_args.get('txt'):
+            FileSaver.save_links_as_txt(location, results)
 
     return 0
 

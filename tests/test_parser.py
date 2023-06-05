@@ -1,5 +1,7 @@
 import pytest
 
+import pathlib
+
 from mediascraper.parser import ArgParser
 
 from .util import run_module, Network
@@ -36,3 +38,11 @@ def test_parses_args(args: list[str], key: str):
 def test_parses_show_arg():
     output = run_module(["-u", "https://google.com", "-s"]).stdout
     assert isinstance(output, str)
+
+
+@Network.requires_connection
+def test_parses_txt_save_arg():
+    file = "test_parser.txt"
+    destination = pathlib.Path.cwd().joinpath(file)
+    run_module(["-u", "https://google.com", "--txt", str(destination)])
+    assert pathlib.Path.exists(destination) is True
