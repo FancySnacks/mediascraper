@@ -29,6 +29,7 @@ class ArgParser:
         self.parser.add_argument('-u',
                                  '--url',
                                  type=str,
+                                 metavar="webpageURL",
                                  help="URL of the target webpage to scrape\n"
                                       "This should be a full link, ex. 'https://google.com', not 'google.com'")
 
@@ -36,4 +37,9 @@ class ArgParser:
                                  '--show',
                                  action='store_true',
                                  default=False,
+                                 help="Print scraped media links to the console")
+
+        self.parser.add_argument('--txt',
+                                 type=str,
+                                 metavar="PATH",
                                  help="Print scraped media links to the console")
