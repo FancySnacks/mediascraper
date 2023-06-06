@@ -20,8 +20,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if url:
         req = requests.get(url).text
-        scraper = ContentScraper.scrape_for_content(req, "img")
-        results = ContentScraper.get_tag_attrib(scraper, filter_string="src")
+        scraper = ContentScraper.scrape_for_content(req, "a")
+        results = ContentScraper.get_tag_attrib(scraper, filter_string="href")
 
         if media_filter := parsed_args.get('filter'):
             media_filter = MediaFilter(MediaType[media_filter.upper()], results)

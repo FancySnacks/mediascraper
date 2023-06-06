@@ -2,7 +2,7 @@ import pytest
 
 from typing import Callable
 
-from mediascraper.util import is_video, is_image, is_sound, is_media
+from mediascraper.util import is_video, is_image, is_sound, is_media, MediaType
 from mediascraper.const import MEDIA_EXTENSIONS
 
 
@@ -50,3 +50,13 @@ def test_file_is_video(value: str, expected: bool):
 @pytest.mark.parametrize("value, expected", SOUND_CASES)
 def test_file_is_sound(value: str, expected: bool):
     assert is_sound(value) is expected
+
+
+@pytest.mark.parametrize("value, expected", [
+    ("image", MediaType.IMAGE),
+    ("video", MediaType.VIDEO),
+    ("sound", MediaType.SOUND),
+    ("all", MediaType.ALL)
+])
+def test_str_to_mediatype(value: str, expected: MediaType):
+    assert MediaType[value.upper()] is expected

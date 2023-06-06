@@ -3,6 +3,7 @@ import pytest
 import pathlib
 
 from mediascraper.parser import ArgParser
+from mediascraper.util import is_media
 
 from .util import run_module, Network
 
@@ -32,6 +33,13 @@ def test_parses_args(args: list[str], key: str):
     parser = ArgParser()
     args: dict = parser.parse_args(args)
     assert args.get(key) is not None
+
+
+@pytest.mark.skip("TODO: tinker around with 'href' and 'src', otherwise it will always fail")
+@Network.requires_connection
+def test_parses_filter_arg():
+    output = run_module(["-u", "https://google.com", "-f", "all", "-s"]).stdout
+    assert all([is_media(link) for link in output])
 
 
 @Network.requires_connection
