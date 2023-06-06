@@ -1,3 +1,5 @@
+"""Entry point of the program"""
+
 import requests
 
 from typing import Sequence

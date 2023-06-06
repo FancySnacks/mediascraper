@@ -1,3 +1,5 @@
+"""Extract elements from HTML page"""
+
 from bs4 import BeautifulSoup
 
 
