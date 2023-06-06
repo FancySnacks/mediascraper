@@ -17,15 +17,19 @@ class ContentScraper:
         soup = BeautifulSoup(html_content, "html.parser")
         results = soup.find_all(tag, attrs=attrs)
 
-        ContentScraper.show_number_of_results(results)
-
         return results
 
     @classmethod
     def get_tag_attrib(cls, scrape_results: list, filter_string: str) -> list[str]:
         """Return a list of attribute values specified by filter_string parameter"""
-        return [item[filter_string] for item in scrape_results]
+
+        filtered_results = [item for item in scrape_results if ContentScraper._tag_exists(item, filter_string)]
+
+        return [item[filter_string] for item in filtered_results]
 
     @classmethod
-    def show_number_of_results(cls, results: list):
-        print(f"Found {len(results)} result(s)")
+    def _tag_exists(cls, item, filter_string: str):
+        if item.get(filter_string):
+            return True
+        else:
+            return False
