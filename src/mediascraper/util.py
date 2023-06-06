@@ -9,31 +9,40 @@ from mediascraper.const import IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, SOUND_EXTENSI
 
 
 def is_media(path: str) -> bool:
-    extension = pathlib.Path(path).suffix
+    extension = pathlib.Path(path).suffix.lower()
+    media_extensions = join_lists(list(MEDIA_EXTENSIONS.values()))
 
-    if extension in MEDIA_EXTENSIONS.values():
+    if extension in media_extensions:
         return True
     else:
         return False
 
 
 def is_image(path: str) -> bool:
-    extension = pathlib.Path(path).suffix
+    extension = pathlib.Path(path).suffix.lower()
     return extension in IMAGE_EXTENSIONS
 
 
 def is_video(path: str) -> bool:
-    extension = pathlib.Path(path).suffix
+    extension = pathlib.Path(path).suffix.lower()
     return extension in VIDEO_EXTENSIONS
 
 
 def is_sound(path: str) -> bool:
-    extension = pathlib.Path(path).suffix
+    extension = pathlib.Path(path).suffix.lower()
     return extension in SOUND_EXTENSIONS
 
 
 def string_list_to_separate_lines(strings: list[str]) -> str:
     return '\n'.join(strings)
+
+
+# This will join all lists of different media extension types into one shared list
+def join_lists(list_of_lists: list[list]) -> list:
+    l = []
+    for item in list_of_lists:
+        l.extend(item)
+    return l
 
 
 class MediaType(StrEnum):

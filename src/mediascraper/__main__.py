@@ -23,6 +23,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         scraper = ContentScraper.scrape_for_content(req, "a")
         results = ContentScraper.get_tag_attrib(scraper, filter_string="href")
 
+        scraper = ContentScraper.scrape_for_content(req, "img")
+        results.extend(ContentScraper.get_tag_attrib(scraper, filter_string="src"))
+
         if media_filter := parsed_args.get('filter'):
             media_filter = MediaFilter(MediaType[media_filter.upper()], results)
             results = media_filter.filtered_items

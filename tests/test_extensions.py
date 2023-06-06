@@ -2,19 +2,11 @@ import pytest
 
 from typing import Callable
 
-from mediascraper.util import is_video, is_image, is_sound, is_media, MediaType
+from mediascraper.util import is_video, is_image, is_sound, is_media, MediaType, join_lists
 from mediascraper.const import MEDIA_EXTENSIONS
 
 
 media_extensions: list[list[str]] = list(MEDIA_EXTENSIONS.values())
-
-
-# This will join all lists of different media extension types into one shared list
-def join_lists(list_of_lists: list[list]) -> list:
-    l = []
-    for item in list_of_lists:
-        l.extend(item)
-    return l
 
 
 # Create test cases with parameters
