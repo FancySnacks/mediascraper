@@ -2,7 +2,7 @@ import pytest
 
 from typing import Callable
 
-from mediascraper.util import is_video, is_image, is_sound
+from mediascraper.util import is_video, is_image, is_sound, is_media
 from mediascraper.const import MEDIA_EXTENSIONS
 
 
@@ -29,6 +29,12 @@ def create_test_cases(extensions: list[str], strategy: Callable) -> list[tuple[s
 IMAGE_CASES = create_test_cases(join_lists(media_extensions), is_image)
 VIDEO_CASES = create_test_cases(join_lists(media_extensions), is_video)
 SOUND_CASES = create_test_cases(join_lists(media_extensions), is_sound)
+ALL_CASES = create_test_cases(join_lists(media_extensions), is_media)
+
+
+@pytest.mark.parametrize("value, expected", ALL_CASES)
+def test_file_is_media(value: str, expected: bool):
+    assert is_media(value) is expected
 
 
 @pytest.mark.parametrize("value, expected", IMAGE_CASES)
