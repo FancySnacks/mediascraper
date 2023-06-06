@@ -5,7 +5,11 @@ from typing import Sequence
 from mediascraper.scraper import ContentScraper
 from mediascraper.parser import ArgParser
 from mediascraper.filesaver import FileSaver
-from mediascraper.util import string_list_to_separate_lines
+from mediascraper.util import string_list_to_separate_lines, MediaFilter, MediaType
+
+
+def show_number_of_results(results: list):
+    print(f"Found {len(results)} result(s)")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -18,6 +22,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         req = requests.get(url).text
         scraper = ContentScraper.scrape_for_content(req, "img")
         results = ContentScraper.get_tag_attrib(scraper, filter_string="src")
+
+        show_number_of_results(results)
 
         if parsed_args.get('show'):
             print(string_list_to_separate_lines(results))
