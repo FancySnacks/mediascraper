@@ -42,4 +42,4 @@ class ArgParser:
         self.parser.add_argument('--txt',
                                  type=str,
                                  metavar="PATH",
-                                 help="Print scraped media links to the console")
+                                 help="Saved scraped links to a text file")

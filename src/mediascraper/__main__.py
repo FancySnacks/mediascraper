@@ -23,6 +23,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         scraper = ContentScraper.scrape_for_content(req, "img")
         results = ContentScraper.get_tag_attrib(scraper, filter_string="src")
 
+        media_filter = MediaFilter(MediaType.IMAGE, results)
+        results = media_filter.filtered_items
+
         show_number_of_results(results)
 
         if parsed_args.get('show'):
