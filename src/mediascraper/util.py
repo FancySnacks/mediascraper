@@ -5,7 +5,16 @@ import pathlib
 from typing import Sequence, Callable
 from enum import StrEnum, auto
 
-from mediascraper.const import IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, SOUND_EXTENSIONS
+from mediascraper.const import IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, SOUND_EXTENSIONS, MEDIA_EXTENSIONS
+
+
+def is_media(path: str) -> bool:
+    extension = pathlib.Path(path).suffix
+
+    if extension in MEDIA_EXTENSIONS.values():
+        return True
+    else:
+        return False
 
 
 def is_image(path: str) -> bool:
@@ -28,22 +37,26 @@ def string_list_to_separate_lines(strings: list[str]) -> str:
 
 
 class MediaType(StrEnum):
+    ALL = auto()
     IMAGE = auto()
     VIDEO = auto()
     SOUND = auto()
 
 
 class MediaFilter:
-    def __init__(self, media_type: MediaType, items: Sequence):
-        self._filter_func = self._switch_on_media_type(media_type)
-        self._filtered_items: list = self._filter(self._filter_func, items)
+    """Filter links for specific media type"""
 
-    def _switch_on_media_type(self, media_type) -> Callable:
+    def __init__(self, media_type: MediaType, items: Sequence):
+        self._filter_func: Callable = self._get_media_filter_func(media_type)
+        self._filtered_items: list[str] = self._filter(self._filter_func, items)
+
+    def _get_media_filter_func(self, media_type: MediaType) -> Callable:
         match media_type:
             case MediaType.IMAGE: return is_image
             case MediaType.VIDEO: return is_video
             case MediaType.SOUND: return is_sound
-            case _: raise Exception("Invalid media type")
+            case MediaType.ALL: return is_media
+            case _: return is_media
 
     def _filter(self, filter_func, items) -> list:
         l = []

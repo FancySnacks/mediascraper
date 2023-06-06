@@ -33,6 +33,14 @@ class ArgParser:
                                  help="URL of the target webpage to scrape\n"
                                       "This should be a full link, ex. 'https://google.com', not 'google.com'")
 
+        self.parser.add_argument('-f',
+                                 '--filter',
+                                 type=str,
+                                 choices=['all', 'image', 'video', 'sound'],
+                                 default="all",
+                                 metavar="MediaType",
+                                 help="Print scraped media links to the console")
+
         self.parser.add_argument('-s',
                                  '--show',
                                  action='store_true',
