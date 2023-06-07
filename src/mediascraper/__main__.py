@@ -7,11 +7,26 @@ from typing import Sequence
 from mediascraper.scraper import ContentScraper
 from mediascraper.parser import ArgParser
 from mediascraper.filesaver import FileSaver
-from mediascraper.util import string_list_to_separate_lines, MediaFilter, MediaType, path_or_url
+from mediascraper.util import string_list_to_separate_lines, MediaFilter, MediaType, MediaSourceType, path_or_url
 
 
 def show_number_of_results(results: list):
+    """Print all links to scraped media"""
     print(f"Found {len(results)} result(s)")
+
+
+def extract_path_or_url(path: str) -> str:
+    """Path is a string system path leading to HTML file OR a string link to a webpage"""
+    mode = path_or_url(path)
+
+    match mode:
+        case MediaSourceType.FILE:
+            with open(path) as f:
+                html_content = f.readlines()
+                html_content = string_list_to_separate_lines(html_content)
+            return html_content
+        case MediaSourceType.URL:
+            return requests.get(path).text
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -21,9 +36,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     url: str = parsed_args.get('url')
 
     if url:
-        mode = path_or_url(url)
+        req = extract_path_or_url(url)
 
-        req = requests.get(url).text
         scraper = ContentScraper.scrape_for_content(req, "a")
         results = ContentScraper.get_tag_attrib(scraper, filter_string="href")
 
