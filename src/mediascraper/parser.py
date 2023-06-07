@@ -29,9 +29,11 @@ class ArgParser:
         self.parser.add_argument('-u',
                                  '--url',
                                  type=str,
-                                 metavar="webpageURL",
+                                 metavar="URL/PATH",
                                  help="URL of the target webpage to scrape\n"
-                                      "This should be a full link, ex. 'https://google.com', not 'google.com'")
+                                      "OR system path to html file to scrape\n"
+                                      "In case of links, it should be a full link, ex. 'https://google.com', "
+                                      "and not 'google.com'")
 
         self.parser.add_argument('-f',
                                  '--filter',

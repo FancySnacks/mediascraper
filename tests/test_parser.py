@@ -3,6 +3,8 @@ import pytest
 import pathlib
 
 from mediascraper.parser import ArgParser
+from mediascraper.scraper import ContentScraper
+from mediascraper.filesaver import FileSaver
 from mediascraper.util import is_media
 
 from .util import run_module, Network

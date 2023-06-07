@@ -1,11 +1,24 @@
 """General utility functions"""
 
 import pathlib
+import re
 
 from typing import Sequence, Callable
 from enum import StrEnum, auto
 
 from mediascraper.const import IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, SOUND_EXTENSIONS, MEDIA_EXTENSIONS
+
+
+class MediaSourceType(StrEnum):
+    URL = auto()
+    FILE = auto()
+
+
+class MediaType(StrEnum):
+    ALL = auto()
+    IMAGE = auto()
+    VIDEO = auto()
+    SOUND = auto()
 
 
 def is_media(path: str) -> bool:
@@ -45,11 +58,24 @@ def join_lists(list_of_lists: list[list]) -> list:
     return l
 
 
-class MediaType(StrEnum):
-    ALL = auto()
-    IMAGE = auto()
-    VIDEO = auto()
-    SOUND = auto()
+def is_scrape_target_a_file(link: str) -> bool:
+    is_file: bool = pathlib.Path(link).is_file()
+    return is_file
+
+
+def is_scrape_target_an_url(link: str) -> bool:
+    is_url: re.Match | None = re.fullmatch(r'^https://(\w+)(\.(\w+))*(/*)([(\w*)(/*)-])*', link)
+    return True if is_url else False
+
+
+def path_or_url(link: str) -> MediaSourceType:
+    if is_scrape_target_a_file(link):
+        return MediaSourceType.FILE
+
+    if is_scrape_target_an_url(link):
+        return MediaSourceType.URL
+
+    raise ValueError("Specified scrape target is neither a valid URL link or system path!")
 
 
 class MediaFilter:
