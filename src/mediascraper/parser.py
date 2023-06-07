@@ -43,6 +43,13 @@ class ArgParser:
                                  metavar="MediaType",
                                  help="Print scraped media links to the console")
 
+        self.parser.add_argument('-d',
+                                 '--dir',
+                                 type=str,
+                                 default=".",
+                                 metavar="TargetDir",
+                                 help="Specify directory path to save scraped media in")
+
         self.parser.add_argument('-s',
                                  '--show',
                                  action='store_true',
@@ -51,5 +58,5 @@ class ArgParser:
 
         self.parser.add_argument('--txt',
                                  type=str,
-                                 metavar="PATH",
+                                 metavar="TxtPath",
                                  help="Saved scraped links to a text file")
