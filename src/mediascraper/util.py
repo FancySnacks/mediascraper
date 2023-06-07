@@ -63,6 +63,13 @@ def is_scrape_target_a_file(link: str) -> bool:
     return is_file
 
 
+def is_scrape_target_a_html_file(link: str) -> bool:
+    if not pathlib.Path(link).suffix == ".html":
+        return False
+
+    return True
+
+
 def is_scrape_target_an_url(link: str) -> bool:
     is_url: re.Match | None = re.fullmatch(r'^https://(\w+)(\.(\w+))*(/*)([(\w*)(/*)-])*', link)
     return True if is_url else False
@@ -70,7 +77,8 @@ def is_scrape_target_an_url(link: str) -> bool:
 
 def path_or_url(link: str) -> MediaSourceType:
     if is_scrape_target_a_file(link):
-        return MediaSourceType.FILE
+        if is_scrape_target_a_html_file(link):
+            return MediaSourceType.FILE
 
     if is_scrape_target_an_url(link):
         return MediaSourceType.URL

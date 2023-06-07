@@ -4,7 +4,8 @@ import requests
 import pathlib
 
 from mediascraper.scraper import ContentScraper
-from mediascraper.util import is_image, is_scrape_target_a_file, is_scrape_target_an_url
+from mediascraper.util import is_image, is_scrape_target_a_file, is_scrape_target_a_html_file, \
+    is_scrape_target_an_url, path_or_url, MediaSourceType
 from mediascraper.const import DEFAULT_PATH
 
 from .util import Network
@@ -51,3 +52,28 @@ def test_scrape_source_is_valid_url(url, expected):
 ])
 def test_scrape_source_is_valid_path(path, expected):
     assert is_scrape_target_a_file(path) is expected
+
+
+@pytest.mark.parametrize('path, expected', [
+    (str(DEFAULT_PATH.joinpath('example.html')), True),
+    (str(DEFAULT_PATH.joinpath('const.py')), False),
+    ('', False),
+])
+def test_scrape_source_is_valid_html_file(path, expected):
+    assert is_scrape_target_a_html_file(path) is expected
+
+
+@pytest.mark.parametrize('path, expected', [
+    (str(DEFAULT_PATH.joinpath('const.py')), True),
+    ('.', False),
+    ('', False),
+])
+def test_scrape_source_is_valid_path(path, expected):
+    assert is_scrape_target_a_file(path) is expected
+
+
+@pytest.mark.parametrize('path, expected', [
+    ('https://test.com/test-test/test', MediaSourceType.URL)
+])
+def test_path_or_url(path, expected):
+    assert path_or_url(path) is expected
