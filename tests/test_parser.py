@@ -29,7 +29,9 @@ def test_args_raises_exception_when_invalid_args():
 
 
 @pytest.mark.parametrize("args, key", [
-    (["-s"], "show")
+    (["-s"], "show"),
+    (["--txt", "test.txt"], "txt"),
+    (["-u", "https://google.com/"], "url"),
 ])
 def test_parses_args(args: list[str], key: str):
     parser = ArgParser()
@@ -50,9 +52,10 @@ def test_parses_show_arg():
     assert isinstance(output, str)
 
 
-@Network.requires_connection
-def test_parses_txt_save_arg():
+def test_parses_txt_save_arg(mock_html):
     file = "test_parser.txt"
     destination = pathlib.Path.cwd().joinpath(file)
-    run_module(["-u", "https://google.com", "--txt", str(destination)])
+    content = ContentScraper.scrape_for_content(mock_html, "img")
+    images: list[str] = ContentScraper.get_tag_attrib(content, "src")
+    FileSaver.save_links_as_txt(destination, images)
     assert pathlib.Path.exists(destination) is True
