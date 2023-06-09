@@ -5,6 +5,7 @@ import os
 import pathlib
 
 from mediascraper.scraper import ContentScraper
+from mediascraper.util import MediaFilter, MediaType
 
 from .util import CONNECTION, Network
 
@@ -37,6 +38,33 @@ def test_scraped_image_from_html_is_saved_correctly(path_test):
 
     with open(destination, 'wb') as f:
         f.write(img_to_save)
+
+    assert filename in os.listdir(destination.parent)
+    os.remove(destination)
+
+
+@pytest.mark.skipif(not CONNECTION, reason=Network.skip_reason)
+def test_scraped_sound_from_html_is_saved_correctly(path_test):
+    filename = 'scrape_save.mp3'
+    destination = path_test.joinpath(f'./{filename}')
+
+    url = 'https://wiki.teamfortress.com/wiki/Engineer_responses'
+    rq = requests.get(url)
+
+    scraper = ContentScraper.scrape_for_content(rq.text, "a")
+    content = ContentScraper.get_tag_attrib(scraper, filter_string="href")
+
+    content = MediaFilter(media_type=MediaType.SOUND, items=content).filtered_items
+
+    src = content[5]
+
+    if src.startswith('/'):
+        src = url + src
+
+    sound_to_save = requests.get(src).content
+
+    with open(destination, 'wb') as f:
+        f.write(sound_to_save)
 
     assert filename in os.listdir(destination.parent)
     os.remove(destination)
