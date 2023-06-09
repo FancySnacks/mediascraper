@@ -25,6 +25,8 @@ class ContentScraper:
     def get_tag_attrib(cls, scrape_results: list, filter_string: str) -> list[str]:
         """Return a list of attribute values specified by filter_string parameter"""
 
+        scrape_results = list(set(scrape_results))
+
         filtered_results = [item for item in scrape_results if ContentScraper._tag_exists(item, filter_string)]
 
         return [item[filter_string] for item in filtered_results]

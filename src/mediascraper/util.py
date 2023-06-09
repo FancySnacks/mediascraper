@@ -82,10 +82,7 @@ def path_or_url(link: str) -> MediaSourceType:
         if is_scrape_target_a_html_file(link):
             return MediaSourceType.FILE
 
-    if is_scrape_target_an_url(link):
-        return MediaSourceType.URL
-
-    raise ValueError("Specified scrape target is neither a valid URL link or system path!")
+    return MediaSourceType.URL
 
 
 def clamp_relative_link(media_url: str, website_url: str) -> str:
