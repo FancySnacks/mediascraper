@@ -32,7 +32,6 @@ def test_scraped_image_from_html_is_saved_correctly(path_test):
 
     scraper = ContentScraper.scrape_for_content(rq.text, "img")
     content = ContentScraper.get_tag_attrib(scraper, filter_string="src")
-    print(content)
 
     img_to_save = requests.get(content[1]).content
 
