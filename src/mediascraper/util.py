@@ -86,6 +86,13 @@ def path_or_url(link: str) -> MediaSourceType:
     raise ValueError("Specified scrape target is neither a valid URL link or system path!")
 
 
+def clamp_relative_link(media_url: str, website_url: str) -> str:
+    if media_url.startswith('/'):
+        return website_url + media_url
+    else:
+        return media_url
+
+
 class MediaFilter:
     """Filter links for specific media type"""
 
