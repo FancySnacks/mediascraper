@@ -1,5 +1,15 @@
 import pytest
 
+import pathlib
+
+
+PATH = pathlib.Path(__file__).parent
+
+
+@pytest.fixture
+def path_test():
+    return PATH
+
 
 @pytest.fixture
 def mock_images() -> list[str]:
@@ -8,7 +18,7 @@ def mock_images() -> list[str]:
 
 @pytest.fixture
 def mock_html() -> str:
-    html_content = """
+    html_content = f"""
         <!DOCTYPE html>
         <html lang="en">
             <head>
@@ -16,9 +26,9 @@ def mock_html() -> str:
             </head>
         
             <body>
-                <img src="/img/test.jpg">
-                <img src="/img/test2.png">
+                <img src="{PATH.joinpath('./img/test.jpg')}">
+                <img src="{PATH.joinpath('./img/python-logo.png')}">
             </body>
-            </html>
+        </html>
     """
     return html_content

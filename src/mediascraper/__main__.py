@@ -16,7 +16,7 @@ def show_number_of_results(results: list):
 
 
 def extract_path_or_url(path: str) -> str:
-    """Path is a string system path leading to HTML file OR a string link to a webpage"""
+    """Path parameter is a string system path leading to HTML file OR a string link to a webpage"""
     mode = path_or_url(path)
 
     match mode:
