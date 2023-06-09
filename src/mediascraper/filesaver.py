@@ -1,5 +1,9 @@
 """Handles saving data to files."""
 
+import requests
+
+import pathlib
+
 from mediascraper.util import string_list_to_separate_lines
 
 
@@ -19,3 +23,13 @@ class FileSaver:
         with open(location, "w") as f:
             separated_links = string_list_to_separate_lines(links)
             f.write(separated_links)
+
+    @classmethod
+    def download_media_from_url(cls, link: str, save_location: str | pathlib.Path):
+        filename = pathlib.Path(link).name
+        destination = pathlib.Path(save_location).joinpath(filename)
+
+        content: bytes = requests.get(link).content
+
+        with open(destination, 'wb') as f:
+            f.write(content)
