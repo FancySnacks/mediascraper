@@ -5,7 +5,7 @@ import os
 import pathlib
 
 from mediascraper.scraper import ContentScraper
-from mediascraper.util import MediaFilter, MediaType
+from mediascraper.util import MediaFilter, MediaType, clamp_relative_link
 
 from .util import CONNECTION, Network
 
@@ -49,17 +49,14 @@ def test_scraped_sound_from_html_is_saved_correctly(path_test):
     destination = path_test.joinpath(f'./{filename}')
 
     url = 'https://wiki.teamfortress.com/wiki/Engineer_responses'
-    rq = requests.get(url)
+    rq = requests.get(url).text
 
-    scraper = ContentScraper.scrape_for_content(rq.text, "a")
+    scraper = ContentScraper.scrape_for_content(rq, "a")
     content = ContentScraper.get_tag_attrib(scraper, filter_string="href")
 
     content = MediaFilter(media_type=MediaType.SOUND, items=content).filtered_items
 
-    src = content[5]
-
-    if src.startswith('/'):
-        src = url + src
+    src = clamp_relative_link(content[5], url)
 
     sound_to_save = requests.get(src).content
 

@@ -1,5 +1,7 @@
 """General utility functions"""
 
+import urllib.parse
+
 import pathlib
 import re
 
@@ -88,7 +90,7 @@ def path_or_url(link: str) -> MediaSourceType:
 
 def clamp_relative_link(media_url: str, website_url: str) -> str:
     if media_url.startswith('/'):
-        return website_url + media_url
+        return urllib.parse.urljoin(website_url, media_url)
     else:
         return media_url
 
