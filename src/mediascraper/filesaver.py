@@ -3,6 +3,7 @@
 import requests
 
 import pathlib
+import os
 
 from mediascraper.util import string_list_to_separate_lines
 
@@ -28,6 +29,8 @@ class FileSaver:
     def download_media_from_url(cls, link: str, save_location: str | pathlib.Path):
         """Download image, video or sound file from url to a specified location on the device"""
 
+        FileSaver._create_src_dir(save_location)
+
         filename = pathlib.Path(link).name
         destination = pathlib.Path(save_location).joinpath(filename)
 
@@ -42,6 +45,14 @@ class FileSaver:
             FileSaver._print_invalid_url(link)
         else:
             FileSaver._print_download_result(link, destination)
+
+    @classmethod
+    def _create_src_dir(cls, path: str):
+        path = pathlib.Path(path)
+
+        if not path.exists():
+            os.mkdir(path)
+            print(f'Dir {path} was created!')
 
     @staticmethod
     def _print_invalid_save_location(loc: str):
