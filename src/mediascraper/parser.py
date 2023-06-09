@@ -46,7 +46,6 @@ class ArgParser:
         self.parser.add_argument('-d',
                                  '--dir',
                                  type=str,
-                                 default=".",
                                  metavar="TargetDir",
                                  help="Specify directory path to save scraped media in")
 
