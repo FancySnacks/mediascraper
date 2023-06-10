@@ -8,7 +8,7 @@ from mediascraper.scraper import ContentScraper
 from mediascraper.parser import ArgParser
 from mediascraper.filesaver import FileSaver
 from mediascraper.util import string_list_to_separate_lines, MediaFilter, MediaType, \
-    MediaSourceType, path_or_url, clamp_relative_link
+    MediaSourceType, path_or_url, clamp_relative_link, is_direct_url
 
 
 def show_number_of_results(results: list):
@@ -21,7 +21,11 @@ def print_download_start_message():
 
 
 def extract_path_or_url(path: str) -> str:
-    """Path parameter is a string system path leading to HTML file OR a string link to a webpage"""
+    """
+    Returns HTML content of a webpage or html file.
+
+    :param path: path leading to website or system path
+    """
     mode = path_or_url(path)
 
     match mode:

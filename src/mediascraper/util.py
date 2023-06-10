@@ -12,11 +12,13 @@ from mediascraper.const import IMAGE_EXTENSIONS, VIDEO_EXTENSIONS, SOUND_EXTENSI
 
 
 class MediaSourceType(StrEnum):
+    """Type of scrape target (webpage url or file path)"""
     URL = auto()
     FILE = auto()
 
 
 class MediaType(StrEnum):
+    """Specifies types of media (all, image, video, sound)"""
     ALL = auto()
     IMAGE = auto()
     VIDEO = auto()
@@ -73,11 +75,13 @@ def is_scrape_target_a_html_file(link: str) -> bool:
 
 
 def is_scrape_target_an_url(link: str) -> bool:
-    is_url: re.Match | None = re.fullmatch(r'^https://(\w+)(\.(\w+))*(/*)([(\w*)(/*)-])*', link)
+    is_url: re.Match | None = re.fullmatch(r'^https://(\w+)(\.(\w+))*(/*)([\w*/-])*', link)
     return True if is_url else False
 
 
 def path_or_url(link: str) -> MediaSourceType:
+    """Examines whether given link is webpage or a html file"""
+
     if is_scrape_target_a_file(link):
         if is_scrape_target_a_html_file(link):
             return MediaSourceType.FILE
@@ -85,17 +89,44 @@ def path_or_url(link: str) -> MediaSourceType:
     return MediaSourceType.URL
 
 
+def is_direct_url(url: str) -> bool:
+    """
+    Is url leading directly to a file?
+
+    Example:
+        'example.com/img_file.png' -> True
+        'google.com/stuff' -> False
+    """
+    is_match = re.match(r'\b(.)(\w)*$')
+    return True if is_match else False
+
+
 def clamp_relative_link(media_url: str, website_url: str) -> str:
-    if media_url.startswith('/'):
-        return urllib.parse.urljoin(website_url, media_url)
-    else:
-        return media_url
+    """Transforms relative link to a fully sized link"""
+
+    link = media_url
+
+    if link.startswith('/'):
+        link = urllib.parse.urljoin(website_url, media_url)
+
+    return link
 
 
 class MediaFilter:
-    """Filter links for specific media type"""
+    """
+    Filter media links for specific media type
 
-    def __init__(self, media_type: MediaType, items: Sequence):
+    To access filtered list use 'filtered_items' property
+
+    Parameters:
+        media_type: MediaType
+            Enum value used for filtering list of media links, each enum is mapped to a filtering function
+        items: Sequence[str]
+            List of url links / system paths leading to media files
+
+    """
+
+    def __init__(self, media_type: MediaType, items: Sequence[str]):
         self._filter_func: Callable = self._get_media_filter_func(media_type)
         self._filtered_items: list[str] = self._filter(self._filter_func, items)
 
