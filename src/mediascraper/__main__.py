@@ -15,7 +15,9 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if url:
         app_session = Session(url, parsed_args)
-        app_session.scrape_media(ContentScraper)
+        results = app_session.scrape_media(ContentScraper)
+        app_session.show_number_of_results(results)
+        app_session.apply_flag_args(results)
 
     return 0
 

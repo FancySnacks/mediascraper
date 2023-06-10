@@ -89,7 +89,7 @@ def path_or_url(link: str) -> MediaSourceType:
     return MediaSourceType.URL
 
 
-def is_direct_url(url: str) -> bool:
+def is_direct_url(url: str | pathlib.Path) -> bool:
     """
     Is url leading directly to a file?
 
@@ -97,8 +97,9 @@ def is_direct_url(url: str) -> bool:
         'example.com/img_file.png' -> True
         'google.com/stuff' -> False
     """
-    is_match = re.match(r'\b(.)(\w)*$')
-    return True if is_match else False
+    is_match = re.search(r'(\b(.)(\w*))$', str(url))
+    is_direct = is_match and is_media(url)
+    return is_direct
 
 
 def clamp_relative_link(media_url: str, website_url: str) -> str:

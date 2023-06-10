@@ -5,7 +5,7 @@ from typing import  Type
 from mediascraper.filesaver import FileSaver
 from mediascraper.scraper import ScraperInterface
 from mediascraper.util import path_or_url, MediaSourceType, string_list_to_separate_lines, MediaFilter, MediaType, \
-    clamp_relative_link
+    clamp_relative_link, is_direct_url
 
 
 class Session:
@@ -13,24 +13,24 @@ class Session:
         self.url: str = url
         self.args: dict = args
 
-    def scrape_media(self, scraper: Type[ScraperInterface]):
+    def scrape_media(self, scraper: Type[ScraperInterface]) -> list[str]:
         """Scrape media from self.url property, apply filter and return list of urls"""
+        if not is_direct_url(self.url):
+            req = self.extract_path_or_url(self.url)
 
-        req = self.extract_path_or_url(self.url)
+            content: list[str] = scraper.scrape_for_content(req, "a")
+            results: list[str] = scraper.get_tag_attrib(content, filter_string="href")
 
-        content = scraper.scrape_for_content(req, "a")
-        results = scraper.get_tag_attrib(content, filter_string="href")
+            content: list[str] = scraper.scrape_for_content(req, "img")
+            results.extend(scraper.get_tag_attrib(content, filter_string="src"))
 
-        content = scraper.scrape_for_content(req, "img")
-        results.extend(scraper.get_tag_attrib(content, filter_string="src"))
+            results: list[str] = self.apply_media_filter(results)
+        else:
+            results: list[str] = [self.url]
 
-        results = self.apply_media_filter(results)
+        return results
 
-        self.show_number_of_results(results)
-
-        self._apply_flag_args(results)
-
-    def _apply_flag_args(self, results: list[str]):
+    def apply_flag_args(self, results: list[str]):
         """Apply flag parameters from self.args to scraped results"""
 
         if self.args.get('show'):
@@ -41,7 +41,6 @@ class Session:
 
         if location := self.args.get('dir'):
             self.download_media(results, location)
-
 
     def extract_path_or_url(self, path: str) -> str:
         """
@@ -61,12 +60,15 @@ class Session:
                 return requests.get(path).text
 
     def apply_media_filter(self, results) -> list[str]:
-        """Apply filter to scraped media"""
+        """
+        Apply filter to scraped media
 
-        media_filter = self.args.get('filter')
+        Do not call this function if you're operating on list that has links directly leading to media
+        """
 
-        media_filter = MediaFilter(MediaType[media_filter.upper()], results)
-        results = media_filter.filtered_items
+        if media_filter := self.args.get('filter'):
+            media_filter = MediaFilter(MediaType[media_filter.upper()], results)
+            results = media_filter.filtered_items
 
         return results
 
@@ -74,6 +76,8 @@ class Session:
         """Download and save media to specified directory"""
 
         self.print_download_start_message()
+
+        print(results)
 
         for media in results:
             media = clamp_relative_link(media, self.url)

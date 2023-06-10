@@ -5,7 +5,7 @@ import pathlib
 
 from mediascraper.scraper import ContentScraper
 from mediascraper.util import is_image, is_scrape_target_a_file, is_scrape_target_a_html_file, \
-    is_scrape_target_an_url, path_or_url, MediaSourceType
+    is_scrape_target_an_url, path_or_url, MediaSourceType, is_direct_url
 from mediascraper.const import DEFAULT_PATH
 
 from .util import Network
@@ -77,3 +77,15 @@ def test_scrape_source_is_valid_path(path, expected):
 ])
 def test_path_or_url(path, expected):
     assert path_or_url(path) is expected
+
+
+def test_url_is_direct_media_link():
+    link = 'https://www.python.org/static/community_logos/python-logo.png'
+    assert is_direct_url(link) is True
+
+
+def test_file_is_direct_media_link(path_test):
+    path = path_test.joinpath('./img/python-logo.png')
+    assert is_direct_url(path) is True
+
+
