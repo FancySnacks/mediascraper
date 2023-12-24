@@ -12,7 +12,11 @@ then
 fi
 
 echo "==== pre-commit: updating version file ===="
-version_path="../../src/mediascraper/version.py"
-python $version_path
+
+version_path="/src/mediascraper/version.py"
+full_path="${PWD}${version_path}"
+
+python $full_path
+
 
 echo "==== pre-commit: success! ===="
