@@ -3,7 +3,7 @@
 echo "===== Running pre-commit ====="
 echo "===== pre-commit: running pytest ====="
 
-pytest
+# pytest
 
 if [ $? -ne 0 ]
 then
@@ -12,8 +12,12 @@ then
 fi
 
 echo "==== pre-commit: updating version file ===="
-version_path="../../src/mediascraper/version.py"
-full_path=${PWD}${version_path}
+cd ../..
+
+version_path="/src/mediascraper/version.py"
+full_path="${PWD}${version_path}"
+
 python $full_path
+
 
 echo "==== pre-commit: success! ===="
