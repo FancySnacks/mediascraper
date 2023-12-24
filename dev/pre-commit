@@ -17,7 +17,7 @@ cd ../..
 version_path="/src/mediascraper/version.py"
 full_path="${PWD}${version_path}"
 
-python $full_path
+echo $full_path
 
 
 echo "==== pre-commit: success! ===="
