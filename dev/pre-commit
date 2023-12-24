@@ -12,7 +12,6 @@ then
 fi
 
 echo "==== pre-commit: updating version file ===="
-cd ../..
 
 version_path="/src/mediascraper/version.py"
 full_path="${PWD}${version_path}"
