@@ -1,14 +1,17 @@
-VERSION = [0, 0, 0]
+def get_version():
+    with open('./version.txt', 'r+') as f:
+        tmp = f.read().split('.')
+    return [int(x) for x in tmp]
+
+
+VERSION = get_version()
 
 
 if __name__ == '__main__':
-    with open('./version.txt', 'r+') as f:
-        tmp = f.read().split('.')
-        VERSION = [int(x) for x in tmp]
-        VERSION[1] = VERSION[1] + 1
+    VERSION[1] = VERSION[1] + 1
 
-        with open('./version.txt', 'w') as f:
-            f.write('.'.join(map(str, VERSION)))
+    with open('./version.txt', 'w') as d:
+        d.write('.'.join(map(str, VERSION)))
 
     with open('./setup.cfg', 'r+') as f:
         lines = f.readlines()
