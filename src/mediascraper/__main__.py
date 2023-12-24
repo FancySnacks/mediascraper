@@ -5,6 +5,7 @@ from typing import Sequence
 from mediascraper.session import Session
 from mediascraper.parser import ArgParser
 from mediascraper.scraper import ContentScraper
+from mediascraper.version import VERSION
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -18,6 +19,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         results = app_session.scrape_media(ContentScraper)
         app_session.show_number_of_results(results)
         app_session.apply_flag_args(results)
+
+    if parsed_args.get('version'):
+        print(VERSION)
 
     return 0
 

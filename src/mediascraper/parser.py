@@ -59,3 +59,8 @@ class ArgParser:
                                  type=str,
                                  metavar="TxtPath",
                                  help="Saved scraped links to a text file")
+
+        self.parser.add_argument('-v',
+                                 '--version',
+                                 action='store_true',
+                                 help="Display current script version")

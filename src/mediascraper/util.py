@@ -107,10 +107,14 @@ def clamp_relative_link(media_url: str, website_url: str) -> str:
 
     link = media_url
 
-    if link.startswith('/'):
+    if link.startswith('/') or link.startswith('//'):
         link = urllib.parse.urljoin(website_url, media_url)
 
     return link
+
+
+def get_absolute_links(media_links: list[str], website_url: str) -> list[str]:
+    return list(map(clamp_relative_link, media_links))
 
 
 class MediaFilter:

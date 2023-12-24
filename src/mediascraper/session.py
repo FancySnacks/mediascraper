@@ -5,7 +5,7 @@ from typing import  Type
 from mediascraper.filesaver import FileSaver
 from mediascraper.scraper import ScraperInterface
 from mediascraper.util import path_or_url, MediaSourceType, string_list_to_separate_lines, MediaFilter, MediaType, \
-    clamp_relative_link, is_direct_url
+    clamp_relative_link, is_direct_url, get_absolute_links
 
 
 class Session:
@@ -33,7 +33,7 @@ class Session:
     def apply_flag_args(self, results: list[str]):
         """Apply flag parameters from self.args to scraped results"""
 
-        if self.args.get('show'):
+        if self.args.get('show') or self.args.get('download'):
             print(string_list_to_separate_lines(results))
 
         if location := self.args.get('txt'):
@@ -76,8 +76,6 @@ class Session:
         """Download and save media to specified directory"""
 
         self.print_download_start_message()
-
-        print(results)
 
         for media in results:
             media = clamp_relative_link(media, self.url)
