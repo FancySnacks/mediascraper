@@ -21,7 +21,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         app_session.apply_flag_args(results)
 
     if parsed_args.get('version'):
-        print(VERSION)
+        print(f"Version: {'.'.join(map(str, VERSION))}")
 
     return 0
 
