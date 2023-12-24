@@ -3,7 +3,7 @@
 echo "===== Running pre-commit ====="
 echo "===== pre-commit: running pytest ====="
 
-# pytest
+pytest
 
 if [ $? -ne 0 ]
 then
@@ -19,8 +19,6 @@ full_path="${PWD}${version_path}"
 python $full_path
 
 # Save files modified by the version autoupdate
-cd ..
-echo $PWD
 git add .
 
 
