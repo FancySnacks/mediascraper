@@ -33,7 +33,10 @@ class Session:
     def apply_flag_args(self, results: list[str]):
         """Apply flag parameters from self.args to scraped results"""
 
-        if self.args.get('show') or self.args.get('download'):
+        if self.args.get('show') or self.args.get('dir'):
+            if self.args.get('verbose'):
+                results = get_absolute_links(results, self.url)
+
             print(string_list_to_separate_lines(results))
 
         if location := self.args.get('txt'):

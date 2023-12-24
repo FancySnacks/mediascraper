@@ -114,7 +114,7 @@ def clamp_relative_link(media_url: str, website_url: str) -> str:
 
 
 def get_absolute_links(media_links: list[str], website_url: str) -> list[str]:
-    return list(map(clamp_relative_link, media_links))
+    return [clamp_relative_link(link, website_url) for link in media_links]
 
 
 class MediaFilter:

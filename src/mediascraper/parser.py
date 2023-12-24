@@ -55,6 +55,11 @@ class ArgParser:
                                  default=False,
                                  help="Print scraped media links to the console")
 
+        self.parser.add_argument('--verbose',
+                                 action='store_true',
+                                 help="Print scraped media links as absolute links.\n"
+                                      "Should be used along with '-s' flag.")
+
         self.parser.add_argument('--txt',
                                  type=str,
                                  metavar="TxtPath",
