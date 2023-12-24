@@ -1,0 +1,4 @@
+#!/bin/sh
+
+version=$(<version.txt)
+git tag ${version}

@@ -3,7 +3,7 @@
 echo "===== Running pre-commit ====="
 echo "===== pre-commit: running pytest ====="
 
-# pytest
+pytest
 
 if [ $? -ne 0 ]
 then
@@ -16,7 +16,10 @@ echo "==== pre-commit: updating version file ===="
 version_path="/src/mediascraper/version.py"
 full_path="${PWD}${version_path}"
 
-echo $full_path
+python $full_path
+
+# Save files modified by the version autoupdate
+git add .
 
 
 echo "==== pre-commit: success! ===="
