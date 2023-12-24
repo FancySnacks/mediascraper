@@ -18,7 +18,10 @@ full_path="${PWD}${version_path}"
 
 python $full_path
 
-git add $full_path
+# Save files modified by the version autoupdate
+cd ..
+echo $PWD
+git add .
 
 
 echo "==== pre-commit: success! ===="
