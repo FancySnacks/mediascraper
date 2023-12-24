@@ -18,5 +18,7 @@ full_path="${PWD}${version_path}"
 
 python $full_path
 
+git add $full_path
+
 
 echo "==== pre-commit: success! ===="
