@@ -6,13 +6,23 @@ class ArgParser:
     """
     Parse console arguments.
 
-    usage: mediascraper.exe [-h] [-u URL] [-s]
+    usage: mediascraper [-h] [-u URL/PATH] [-f MediaType] [-d TargetDir] [-s] [--verbose] [--txt TxtPath] [-v]
 
     options:
-      -h, --help         show this help message and exit
-      -u URL, --url URL  URL of the target webpage to scrape
-                         This should be a full link, ex. 'https://google.com', not 'google.com'
-      -s, --show         Print scraped media links to the console
+      -h, --help            show this help message and exit
+      -u URL/PATH, --url URL/PATH
+                            URL of the target webpage to scrape
+                            OR system path to html file to scrape
+                            In case of links, it should be a full link, ex. 'https://google.com', and not 'google.com'
+      -f MediaType, --filter MediaType
+                            Print scraped media links to the console
+      -d TargetDir, --dir TargetDir
+                            Specify directory path to save scraped media in
+      -s, --show            Print scraped media links to the console
+      --verbose             Print scraped media links as absolute links.
+                            Should be used along with '-s' flag.
+      --txt TxtPath         Saved scraped links to a text file
+      -v, --version         Display current script version
     """
 
     def __init__(self):
